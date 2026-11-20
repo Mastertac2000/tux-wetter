@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 R.Bruns -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="locationName" type="String">
+      <default>Luzern</default>
+    </entry>
+    <entry name="latitude" type="Double">
+      <default>47.0505</default>
+    </entry>
+    <entry name="longitude" type="Double">
+      <default>8.3064</default>
+    </entry>
+    <entry name="provider" type="String">
+      <default>openmeteo</default>
+    </entry>
+    <entry name="weatherModel" type="String">
+      <default>best_match</default>
+    </entry>
+    <entry name="owmApiKey" type="String">
+      <default></default>
+    </entry>
+    <entry name="weatherApiKey" type="String">
+      <default></default>
+    </entry>
+    <entry name="windWarning" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="thunderWarning" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="rainWarning" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="snowWarning" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="iceWarning" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="heatWarning" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="dwdWarnings" type="Bool">
+      <default>true</default>
+    </entry>
+    <!-- Amtliche Warnungen von MeteoSchweiz über MeteoAlarm (EUMETNET), frei weiterverwendbar -->
+    <entry name="meteoSwissWarnings" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="geoSphereWarnings" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="warnArea" type="String">
+      <default></default>
+    </entry>
+    <entry name="colorScheme" type="String">
+      <default>violett</default>
+    </entry>
+    <entry name="customColorStart" type="String">
+      <default>#2B2763</default>
+    </entry>
+    <entry name="customColorEnd" type="String">
+      <default>#5A3AD4</default>
+    </entry>
+    <entry name="useFahrenheit" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="updateInterval" type="Int">
+      <default>15</default>
+    </entry>
+    <entry name="animations" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="glassEffect" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="glassTint" type="Int">
+      <default>45</default>
+    </entry>
+    <entry name="glassDarken" type="Int">
+      <default>18</default>
+    </entry>
+    <entry name="backgroundOpacity" type="Int">
+      <default>94</default>
+    </entry>
+    <entry name="language" type="String">
+      <default>auto</default>
+    </entry>
+    <entry name="showDetails" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="feelsLike" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="rainNowcast" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="airQuality" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="notifications" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="notifyLevel" type="Int">
+      <default>2</default>
+    </entry>
+    <entry name="places" type="String">
+      <default>[]</default>
+    </entry>
+    <entry name="autoLocation" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="autoActive" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="autoPlace" type="String">
+      <default></default>
+    </entry>
+    <entry name="measuredTemp" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="lightCard" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="warnAreas" type="String">
+      <default>{}</default>
+    </entry>
+    <entry name="notifyAllPlaces" type="Bool">
+      <default>true</default>
+    </entry>
+    <!-- Zuletzt eingestellte Grösse auf der Arbeitsfläche (0 = Grundgrösse 560×436) -->
+    <entry name="lastWidth" type="Int">
+      <default>0</default>
+    </entry>
+    <entry name="lastHeight" type="Int">
+      <default>0</default>
+    </entry>
+    <!-- Wurde schon nach einer Sicherung eines früheren Widgets gefragt? (siehe sicherung.js) -->
+    <entry name="restoreChecked" type="Bool">
+      <default>false</default>
+    </entry>
+  </group>
+</kcfg>

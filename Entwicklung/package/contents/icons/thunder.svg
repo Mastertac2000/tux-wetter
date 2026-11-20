@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<defs>
+  <radialGradient id="sonne" cx="0.4" cy="0.35" r="0.7">
+    <stop offset="0" stop-color="#FFF3A0"/>
+    <stop offset="0.55" stop-color="#FFC928"/>
+    <stop offset="1" stop-color="#FF9F0A"/>
+  </radialGradient>
+  <linearGradient id="wolke" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/>
+    <stop offset="0.6" stop-color="#EEF2FA"/>
+    <stop offset="1" stop-color="#C4CEE4"/>
+  </linearGradient>
+  <linearGradient id="wolkeHinten" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#D9DFEE"/>
+    <stop offset="1" stop-color="#9EA9C6"/>
+  </linearGradient>
+  <linearGradient id="wolkeDunkel" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#B9C1D6"/>
+    <stop offset="1" stop-color="#7A84A3"/>
+  </linearGradient>
+  <linearGradient id="tropfen" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#7FD3FF"/>
+    <stop offset="1" stop-color="#1E8BFF"/>
+  </linearGradient>
+  <linearGradient id="mond" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFF6C8"/>
+    <stop offset="1" stop-color="#F2C94C"/>
+  </linearGradient>
+  <linearGradient id="blitz" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFE45C"/>
+    <stop offset="1" stop-color="#FF9F0A"/>
+  </linearGradient>
+</defs>
+<g transform="translate(0 -9) scale(1.0)"><path d="M17 52 A9 9 0 0 1 17 34 A13 13 0 0 1 41 29 A11 11 0 0 1 51 52 Z" transform="translate(0 1.6)" fill="#1B1450" opacity="0.18"/><path d="M17 52 A9 9 0 0 1 17 34 A13 13 0 0 1 41 29 A11 11 0 0 1 51 52 Z" fill="url(#wolkeDunkel)"/></g><path d="M34 40 L25 52 L32 52 L28 61 L40 47 L33 47 L37 40 Z" fill="url(#blitz)"/>
+</svg>

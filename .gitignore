@@ -1,0 +1,8 @@
+# Veroeffentlichung nicht gewuenscht
+Entwicklung/Sicherung/
+Programm/Veroeffentlichung.zip
+Programm/*.plasmoid
+fehler/
+__pycache__/
+*.pyc
+.DS_Store

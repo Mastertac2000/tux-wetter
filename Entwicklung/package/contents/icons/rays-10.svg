@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 40 40"><line x1="14.00" y1="0.00" x2="18.50" y2="0.00" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/>
+<line x1="9.90" y1="9.90" x2="13.08" y2="13.08" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/>
+<line x1="0.00" y1="14.00" x2="0.00" y2="18.50" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/>
+<line x1="-9.90" y1="9.90" x2="-13.08" y2="13.08" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/>
+<line x1="-14.00" y1="0.00" x2="-18.50" y2="0.00" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/>
+<line x1="-9.90" y1="-9.90" x2="-13.08" y2="-13.08" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/>
+<line x1="-0.00" y1="-14.00" x2="-0.00" y2="-18.50" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/>
+<line x1="9.90" y1="-9.90" x2="13.08" y2="-13.08" stroke="#FFC23A" stroke-width="2.6" stroke-linecap="round"/></svg>

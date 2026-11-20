@@ -1,0 +1,25 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Created 2026 by R.Bruns",
+                "Name[de]": "Erstellt 2026 von R.Bruns"
+            },
+            {
+                "Name": "A PayPal donation would make me happy.\nPayPal: registrierung@medien-gestalt.com",
+                "Name[de]": "Über eine PayPal-Spende freue ich mich.\nPayPal: registrierung@medien-gestalt.com"
+            }
+        ],
+        "Category": "Environment and Weather",
+        "Description": "Glass-look weather: current conditions, hourly values, 5-day forecast and weather warnings (data: Open-Meteo, MET Norway, Deutscher Wetterdienst, OpenWeatherMap or WeatherAPI.com)",
+        "Description[de]": "Wetter im Glas-Look: aktuelle Lage, Stundenwerte, 5-Tage-Vorschau und Wetterwarnungen (Daten: Open-Meteo, MET Norway, Deutscher Wetterdienst, OpenWeatherMap oder WeatherAPI.com)",
+        "Icon": "weather-few-clouds",
+        "Id": "ch.tuxwetter",
+        "License": "GPL-3.0-or-later",
+        "Name": "TuX-Wetter",
+        "Name[de]": "TuX-Wetter",
+        "Version": "V1.5"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

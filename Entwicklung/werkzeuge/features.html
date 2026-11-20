@@ -1,0 +1,492 @@
+<title>TuX-Wetter V1.5</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: violette Glas-Karte als Kopf (wie das Widget selbst), darunter Funktionsgruppen in einem Raster */
+:root {
+  --bg: #F4F3FA;
+  --fg: #1D1A36;
+  --muted: #5D5880;
+  --surface: #FFFFFF;
+  --line: #E1DEF0;
+  --accent: #4434B6;
+  --karte-1: #2B2763;
+  --karte-2: #4434B6;
+  --karte-3: #5A3AD4;
+  --schimmer: #2F6CE8;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12102A; --fg: #ECEAF8; --muted: #A9A4CC; --surface: #1B1838; --line: #2E2A55; --accent: #9C8CFF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12102A; --fg: #ECEAF8; --muted: #A9A4CC; --surface: #1B1838; --line: #2E2A55; --accent: #9C8CFF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.seite {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-block: 32px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 40px;
+}
+
+/* ── Kopf: die Karte des Widgets ── */
+.karte {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: clamp(24px, 4vw, 44px);
+  color: #FFFFFF;
+  background:
+    radial-gradient(circle at 5% 105%, color-mix(in srgb, var(--schimmer) 78%, transparent), transparent 60%),
+    linear-gradient(135deg, var(--karte-1), var(--karte-2) 50%, var(--karte-3));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px 32px;
+  align-items: end;
+}
+.karte .kicker {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 8px;
+}
+.karte h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 1.02;
+  margin: 0;
+  text-wrap: balance;
+}
+.karte .unter {
+  margin: 14px 0 0;
+  max-width: 52ch;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1.1rem;
+}
+.temp {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3.6rem, 9vw, 6rem);
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.temp small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 10px;
+}
+.band {
+  grid-column: 1 / -1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: #FF8A00; /* Stufe 2 (orange), wie „Starkes Gewitter“ beim DWD */
+  color: #1A1A1A;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.band::before { content: "▲"; font-size: 0.7rem; }
+
+/* ── Kennzahlen ── */
+.zahlen {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.zahl {
+  padding: 16px 18px;
+  border-top: 2px solid var(--accent);
+}
+.zahl b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.zahl span { color: var(--muted); font-size: 0.95rem; }
+
+/* ── Funktionsgruppen ── */
+.gruppen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.gruppe {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px 26px;
+  min-width: 0;
+}
+.gruppe.breit { grid-column: 1 / -1; }
+.gruppe h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  margin: 0 0 4px;
+  text-wrap: balance;
+}
+.gruppe .wozu {
+  color: var(--muted);
+  margin: 0 0 14px;
+  font-size: 0.98rem;
+}
+.gruppe ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+.gruppe li {
+  position: relative;
+  padding-left: 20px;
+}
+.gruppe li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.gruppe li strong { font-weight: 600; }
+.zwei-spalten { columns: 2 280px; column-gap: 32px; }
+.zwei-spalten li { break-inside: avoid; margin-bottom: 9px; }
+
+/* Warnstufen und Farbschemen: echte Werte aus dem Widget */
+.stufen {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 4px 0 18px;
+}
+.stufe {
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.stufe span {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.82rem;
+  margin-top: 4px;
+  opacity: 0.85;
+}
+.s1 { background: #F5C400; color: #1A1A1A; }
+.s2 { background: #FF8A00; color: #1A1A1A; }
+.s3 { background: #E53935; color: #FFFFFF; }
+.s4 { background: #9C27B0; color: #FFFFFF; }
+.arten {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin: 4px 0 18px;
+}
+.art {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.art span {
+  display: block;
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.zwischen {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+@media (max-width: 760px) { .arten { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.schemen {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 4px 0 18px;
+}
+.schema {
+  border-radius: 12px;
+  height: 64px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: flex-end;
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.schema.eigen {
+  background: repeating-linear-gradient(135deg, var(--line) 0 8px, transparent 8px 16px);
+  color: var(--fg);
+  border: 1px dashed var(--muted);
+}
+
+.anbieter {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 4px 0 16px;
+}
+.anbieter div {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.anbieter b { display: block; font-weight: 600; }
+.anbieter span { color: var(--muted); font-size: 0.92rem; }
+/* ungerade Anzahl: das letzte Feld über die ganze Breite */
+.anbieter div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+code, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+.fuss {
+  color: var(--muted);
+  font-size: 0.95rem;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .gruppen { grid-template-columns: minmax(0, 1fr); }
+  .zahlen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stufen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .anbieter { grid-template-columns: minmax(0, 1fr); }
+  .karte { grid-template-columns: minmax(0, 1fr); }
+  .temp { text-align: left; }
+}
+</style>
+
+<main class="seite">
+
+  <header class="karte">
+    <div>
+      <p class="kicker">KDE-Plasma-Widget · V1.5</p>
+      <h1>TuX-Wetter</h1>
+      <p class="unter">Wetter im Glas-Look für den Plasma-Desktop: aktuelle Lage, die nächsten sechs Stunden und fünf Tage Vorschau, mit animierten Symbolen, Wetterwarnungen und Infozeile – auf Deutsch oder Englisch.</p>
+    </div>
+    <div class="temp">17°<small>Überwiegend sonnig · 23° / 11°</small></div>
+    <div class="band">Starkes Gewitter · heute 15:00–19:00 · DWD · +1</div>
+  </header>
+
+  <section class="zahlen" aria-label="Kennzahlen">
+    <div class="zahl"><b>5</b><span>Wetteranbieter</span></div>
+    <div class="zahl"><b>6</b><span>Wettermodelle bei Open-Meteo</span></div>
+    <div class="zahl"><b>6</b><span>Warnarten von drei amtlichen Diensten</span></div>
+    <div class="zahl"><b>8 + 1</b><span>Farbschemen plus eigene Farben</span></div>
+  </section>
+
+  <section class="gruppen">
+
+    <article class="gruppe">
+      <h2>Anzeige</h2>
+      <p class="wozu">Alles Wichtige auf einer Karte.</p>
+      <ul>
+        <li><strong>Aktuelles Wetter:</strong> grosses Symbol, Temperatur und Wetterlage in Worten</li>
+        <li><strong>Heute:</strong> Höchst- und Tiefstwert, Regenwahrscheinlichkeit, Luftfeuchtigkeit und Wind</li>
+        <li><strong>Die nächsten 6 Stunden</strong> mit Symbol und Temperatur</li>
+        <li><strong>5-Tage-Vorschau</strong> mit Temperaturbalken von cyan (kühl) bis orange (warm)</li>
+        <li><strong>Tag und Nacht:</strong> eigene Symbole mit Sonne oder Mond</li>
+      </ul>
+    </article>
+
+    <article class="gruppe">
+      <h2>Animierte Symbole</h2>
+      <p class="wozu">Ruhige Bewegung, auf Wunsch abschaltbar.</p>
+      <ul>
+        <li>Sonnenstrahlen drehen sich langsam und pulsieren</li>
+        <li>Der Mond leuchtet und wiegt sich, bei klarer Nacht funkeln Sterne</li>
+        <li>Wolken treiben sanft hin und her</li>
+        <li>Regen, Niesel, Schauer und Schnee fallen aus der Wolke</li>
+        <li>Bei Gewitter zuckt der Blitz in unregelmässigen Abständen</li>
+      </ul>
+    </article>
+
+    <article class="gruppe breit">
+      <h2>Wetterwarnungen</h2>
+      <p class="wozu">Warnt vor Wetter in den nächsten 24 Stunden, in vier Stufen nach dem Vorbild des Deutschen Wetterdienstes.</p>
+      <div class="arten">
+        <div class="art">Wind<span>weltweit + amtlich</span></div>
+        <div class="art">Gewitter<span>amtlich</span></div>
+        <div class="art">Starkregen<span>amtlich</span></div>
+        <div class="art">Schnee<span>amtlich</span></div>
+        <div class="art">Glätte und Frost<span>amtlich</span></div>
+        <div class="art">Hitze<span>amtlich</span></div>
+      </div>
+      <p class="zwischen">Die Farbe zeigt die Stufe. Beim Wind richtet sie sich nach den Böen:</p>
+      <div class="stufen">
+        <div class="stufe s1">Windböen<span>ab 50 km/h</span></div>
+        <div class="stufe s2">Sturmböen<span>ab 62 km/h</span></div>
+        <div class="stufe s3">Schwere Sturmböen<span>ab 89 km/h</span></div>
+        <div class="stufe s4">Orkanböen<span>ab 118 km/h</span></div>
+      </div>
+      <ul class="zwei-spalten">
+        <li><strong>Wind weltweit</strong> aus der Vorhersage: die höchste Böe der nächsten 24 Stunden</li>
+        <li><strong>Amtliche Warnungen</strong> aller sechs Arten von MeteoSchweiz (mit Liechtenstein, über MeteoAlarm), GeoSphere Austria und dem DWD</li>
+        <li><strong>Gut sichtbar:</strong> farbiges Band mit der stärksten Warnung, „+2“ für weitere, Warndreieck in der Leiste</li>
+        <li><strong>Ausführlich im Tooltip:</strong> alle Warnungen mit Zeitraum, beim Wind auch Böen nach Höhenlage</li>
+        <li><strong>Sparsam:</strong> Das Land wird nur einmal je Ort ermittelt, danach fragt das Widget nur den passenden Dienst</li>
+        <li><strong>Einzeln schaltbar:</strong> jede Warnart und jedes Land</li>
+        <li><strong>Benachrichtigung</strong> auf dem Desktop bei neuer oder stärkerer Warnung, ab wählbarer Stufe</li>
+        <li><strong>Klick aufs Band</strong> öffnet die amtliche Warnseite von MeteoSchweiz, GeoSphere oder DWD</li>
+        <li><strong>Alle Orte im Blick:</strong> Warndreieck neben ‹ ›, wenn an einem anderen Ort der Ortsliste eine Warnung gilt</li>
+      </ul>
+    </article>
+
+    <article class="gruppe breit">
+      <h2>Mehr Wetter auf einen Blick</h2>
+      <p class="wozu">Infozeile zwischen Stundenwerten und Vorschau, jeder Wert mit Tooltip.</p>
+      <ul class="zwei-spalten">
+        <li><strong>Sonnenaufgang und -untergang</strong> in Ortszeit</li>
+        <li><strong>UV-Index</strong> von heute mit Stufe von niedrig bis extrem</li>
+        <li><strong>Luftqualität</strong> nach dem Europäischen Luftqualitätsindex</li>
+        <li><strong>Pollen</strong> von Birke, Gräsern, Erle, Beifuss, Ambrosia und Olive (Europa)</li>
+        <li><strong>Regen der nächsten 2 Stunden:</strong> „Regen: ab 14:15“, Mengen je Viertelstunde im Tooltip</li>
+        <li><strong>Gemessene Temperatur</strong> der nächsten Station von MeteoSchweiz, GeoSphere oder DWD statt des Modellwerts</li>
+        <li><strong>Gefühlte Temperatur</strong> und Pfeil für die Windrichtung</li>
+        <li><strong>Mondphase</strong> mit Mondauf- und -untergang</li>
+        <li><strong>Regen pro Tag</strong> in der Vorschau: Wahrscheinlichkeit und Menge, Neuschnee in cm</li>
+        <li><strong>Tagesdetails:</strong> Klick auf einen Tag zeigt seine Temperaturkurve über 24 Stunden</li>
+        <li><strong>Für jeden Anbieter:</strong> die Zusatzwerte kommen kostenlos von Open-Meteo, MET Norway, MeteoSchweiz, GeoSphere und DWD</li>
+      </ul>
+    </article>
+
+    <article class="gruppe">
+      <h2>Wetterdaten</h2>
+      <p class="wozu">Freie Wahl der Quelle.</p>
+      <div class="anbieter">
+        <div><b>Open-Meteo</b><span>ohne Konto, voreingestellt</span></div>
+        <div><b>MET Norway</b><span>yr.no, ohne Konto</span></div>
+        <div><b>DWD</b><span>MOSMIX, ohne Konto</span></div>
+        <div><b>OpenWeatherMap</b><span>kostenloser Schlüssel</span></div>
+        <div><b>WeatherAPI.com</b><span>kostenloser Schlüssel</span></div>
+      </div>
+      <ul>
+        <li><strong>Sechs Modelle bei Open-Meteo:</strong> Automatisch, MeteoSchweiz ICON-CH2, DWD ICON, ECMWF IFS, NOAA GFS und Météo-France</li>
+        <li><strong>Weltweite Ortssuche</strong> mit frei wählbarem Anzeigenamen</li>
+        <li><strong>Findet auch</strong> „Zuerich“ (ae/oe/ue), „Neuchâtel“ oder „New York“, Postleitzahlen und Länderkürzel wie „Luzern (CH)“</li>
+        <li><strong>Ortsliste:</strong> mehrere Orte in einem Widget, mit ‹ ›, Mausrad oder Kontextmenü umschalten</li>
+        <li><strong>Standort automatisch</strong> über die IP-Adresse, praktisch für Laptops unterwegs</li>
+        <li><strong>Je ein Schlüssel</strong> pro Anbieter bleibt beim Wechsel erhalten</li>
+      </ul>
+    </article>
+
+    <article class="gruppe">
+      <h2>Bedienung</h2>
+      <p class="wozu">Direkt auf der Karte.</p>
+      <ul>
+        <li><strong>°C oder °F</strong> per Klick auf der Karte umschalten</li>
+        <li><strong>Neu laden</strong> per Klick auf den Ortsnamen oder Rechtsklick → „Jetzt aktualisieren“</li>
+        <li><strong>Tooltip am Warnband:</strong> alle Warnungen ausführlich</li>
+        <li><strong>Tooltip an Höchst/Tiefst:</strong> ab wann die Werte gelten (OpenWeatherMap)</li>
+        <li><strong>Tooltip an „Stand …“:</strong> warum die Daten nicht aktuell sind</li>
+        <li><strong>Grösse frei ziehbar;</strong> die Karte behält ihr Seitenverhältnis</li>
+        <li><strong>Deutsch oder Englisch,</strong> automatisch nach der Systemsprache oder fest eingestellt</li>
+        <li><strong>Einstellungen gesichert:</strong> ein neu hinzugefügtes Widget bietet an, sie zu übernehmen; dazu Sichern in eine Datei und Laden</li>
+      </ul>
+    </article>
+
+    <article class="gruppe breit">
+      <h2>Aussehen</h2>
+      <p class="wozu">Glas-Look, deckende oder helle Karte, in neun Farbvarianten.</p>
+      <div class="schemen">
+        <div class="schema" style="background: linear-gradient(135deg, #2B2763, #4434B6, #5A3AD4)">Violett</div>
+        <div class="schema" style="background: linear-gradient(135deg, #353A97, #3442A8, #2C4CB8)">Blau</div>
+        <div class="schema" style="background: linear-gradient(135deg, #1F5A73, #1E6E80, #1B8290)">Petrol</div>
+        <div class="schema" style="background: linear-gradient(135deg, #1F5E4A, #22704F, #2B8457)">Grün</div>
+        <div class="schema" style="background: linear-gradient(135deg, #6B1F3A, #7E2747, #8E2F4F)">Bordeaux</div>
+        <div class="schema" style="background: linear-gradient(135deg, #8A3A6E, #A6435C, #B8553E)">Sonnenuntergang</div>
+        <div class="schema" style="background: linear-gradient(135deg, #3A3F4B, #454B58, #515866)">Graphit</div>
+        <div class="schema" style="background: linear-gradient(135deg, #141A33, #1B2240, #222B4F)">Nacht</div>
+        <div class="schema eigen">Eigene Farben</div>
+      </div>
+      <ul class="zwei-spalten">
+        <li><strong>Glas-Effekt:</strong> das Hintergrundbild scheint verschwommen durch, Tönung und Abdunklung einstellbar</li>
+        <li><strong>Ohne Glas:</strong> deckende Karte mit einstellbarer Deckkraft</li>
+        <li><strong>Helle Karte</strong> mit dunkler Schrift für helle Hintergrundbilder, zuschaltbar</li>
+        <li><strong>Eigene Farben</strong> mit Vorschau und Hinweis, wenn sie für weisse Schrift zu hell sind</li>
+        <li><strong>Passt sich an:</strong> lange Ortsnamen und dreistellige Temperaturen werden kleiner gesetzt</li>
+      </ul>
+    </article>
+
+    <article class="gruppe">
+      <h2>In der Leiste</h2>
+      <p class="wozu">Klein, mit der ganzen Karte auf Klick.</p>
+      <ul>
+        <li>Symbol und Temperatur in der Leiste</li>
+        <li>Ein Klick öffnet die ganze Karte</li>
+        <li>Warndreieck in der Farbe der stärksten Warnung</li>
+        <li>Infofenster mit allen Angaben beim Überfahren</li>
+      </ul>
+    </article>
+
+    <article class="gruppe">
+      <h2>Zuverlässig im Hintergrund</h2>
+      <p class="wozu">Läuft, ohne dass man sich kümmern muss.</p>
+      <ul>
+        <li><strong>Sofort Werte</strong> nach dem Anmelden aus dem Zwischenspeicher (höchstens einen Tag alt)</li>
+        <li><strong>Ohne Netz:</strong> neuer Versuch nach 3, 6, 12, 24 und 48 Sekunden, danach jede Minute</li>
+        <li><strong>Nie der falsche Ort:</strong> alte Werte verschwinden nach einem Wechsel</li>
+        <li><strong>Hinweis „Stand …“</strong> bei veralteten Daten, vom Vortag mit Datum</li>
+        <li><strong>Richtige Uhrzeiten</strong> auch über die Zeitumstellung</li>
+        <li><strong>Verständliche Meldungen,</strong> z. B. bei falschem Schlüssel</li>
+        <li><strong>Sparsam:</strong> Animationen mit 25 Bildern pro Sekunde</li>
+      </ul>
+    </article>
+
+  </section>
+
+  <footer class="fuss">
+    <span>TuX-Wetter V1.5 · Erstellt 2026 von R.Bruns · Lizenz GPL-3.0-or-later</span>
+    <span>KDE Plasma 6 mit Qt 6.8 oder neuer · Datei <span class="mono">Tux-Wetter_v1.5.plasmoid</span></span>
+  </footer>
+
+</main>
