@@ -1194,7 +1194,7 @@ Item {
                     readonly property var e: angebotFlaeche.a ? angebotFlaeche.a.einstellungen : ({})
                     readonly property int orte: angebotFlaeche.a ? S.anzahlOrte(e) : 0
                     text: angebotFlaeche.a
-                          ? karte.t("Ein TuX-Wetter hat am %1 seine Einstellungen gesichert: %2.",
+                          ? karte.t("Ein Tux-Wetter hat am %1 seine Einstellungen gesichert: %2.",
                                     Qt.formatDateTime(new Date(angebotFlaeche.a.stand), karte.sp === "en" ? "yyyy-MM-dd HH:mm" : "dd.MM.yyyy HH:mm"),
                                     (e.locationName || "–") + (orte > 0 ? ", " + karte.t(orte === 1 ? "1 Ort in der Ortsliste" : "%1 Orte in der Ortsliste", orte) : ""))
                             + " " + karte.t("Diese Einstellungen übernehmen?")
@@ -1214,6 +1214,74 @@ Item {
                         icon.name: "dialog-cancel"
                         text: karte.t("Nein, neu einrichten")
                         onClicked: karte.wetter.angebotAblehnen()
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Hinweis auf eine neue Version bei GitHub (main.qml neueVersion); heruntergeladen wird nichts ──
+    Rectangle {
+        id: updateFlaeche
+        readonly property var v: karte.wetter.neueVersion
+        // Das Angebot früherer Einstellungen geht vor
+        visible: v !== null && karte.wetter.angebot === null
+        anchors.fill: parent
+        radius: 22 * karte.s
+        color: karte.hellModus ? "#B3FFFFFF" : "#A6000000"
+
+        // Klicks nicht an die Karte darunter weitergeben
+        MouseArea { anchors.fill: parent; hoverEnabled: true; onWheel: wheel => wheel.accepted = true }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: parent.width - 70 * karte.s
+            height: Math.min(parent.height - 40 * karte.s, updateInhalt.implicitHeight + 44 * karte.s)
+            radius: 16 * karte.s
+            color: karte.hellModus ? "#F2FFFFFF" : "#F21B1F33"
+            border.color: karte.farbe(0.25)
+            border.width: 1
+            clip: true
+
+            Column {
+                id: updateInhalt
+                anchors.centerIn: parent
+                width: parent.width - 48 * karte.s
+                spacing: 12 * karte.s
+
+                Text {
+                    width: parent.width
+                    wrapMode: Text.Wrap
+                    text: updateFlaeche.v ? karte.t("Tux-Wetter %1 ist erschienen", updateFlaeche.v.version) : ""
+                    color: karte.vorder
+                    font.family: karte.schrift
+                    font.pixelSize: 24 * karte.s
+                    font.weight: Font.DemiBold
+                }
+                Text {
+                    width: parent.width
+                    wrapMode: Text.Wrap
+                    text: updateFlaeche.v
+                          ? karte.t("Installiert ist %1. Die neue Version gibt es auf GitHub; das Widget lädt sie nicht selbst herunter.",
+                                    karte.wetter.eigeneVersion)
+                          : ""
+                    color: karte.farbe(0.85)
+                    font.family: karte.schrift
+                    font.pixelSize: 17 * karte.s
+                }
+                // Nebeneinander; nur wenn das Widget sehr schmal ist, rutscht der zweite Knopf darunter
+                Flow {
+                    width: parent.width
+                    spacing: 10 * karte.s
+                    PC3.Button {
+                        icon.name: "internet-services"
+                        text: karte.t("Download-Seite öffnen")
+                        onClicked: karte.wetter.updateSeiteOeffnen()
+                    }
+                    PC3.Button {
+                        icon.name: "dialog-cancel"
+                        text: karte.t("Diese Version überspringen")
+                        onClicked: karte.wetter.updateUeberspringen()
                     }
                 }
             }

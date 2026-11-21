@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2026 R.Bruns
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# TuX-Wetter installieren oder aktualisieren – zum Doppelklicken in Dolphin („Ausführen“).
+# Tux-Wetter installieren oder aktualisieren – zum Doppelklicken in Dolphin („Ausführen“).
 # Erledigt alles, was sonst im Terminal nötig wäre:
 #   - installiert das Widget neu oder spielt eine neue Version ein (auch ohne „… existiert schon“),
 #   - stellt Widgets mit einer älteren Kennung um (Einstellungen, Position und Grösse bleiben),
@@ -11,7 +11,7 @@
 
 set -u
 KENNUNG="ch.tuxwetter"
-NAME="TuX-Wetter"
+NAME="Tux-Wetter"
 ORDNER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APPLETSRC="${XDG_CONFIG_HOME:-$HOME/.config}/plasma-org.kde.plasma.desktop-appletsrc"
 # Nur für Tests: TUX_TEST=1 lässt Plasma in Ruhe (kein Neuladen, kein Widget anlegen)

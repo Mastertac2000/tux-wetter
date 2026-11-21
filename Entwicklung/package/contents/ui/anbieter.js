@@ -119,7 +119,7 @@ function brauchtSchluessel(id) {
 // MET Norway verlangt eine Kennung des Programms (ohne antwortet der Dienst mit 403) und wünscht darin
 // eine Kontaktmöglichkeit, damit es bei Problemen nachfragen kann statt zu sperren
 const KONTAKT = ""
-const KENNUNG = "TuxWetter/1.5 (KDE Plasma widget" + (KONTAKT ? "; " + KONTAKT : "") + ")"
+const KENNUNG = "TuxWetter/1.6 (KDE Plasma widget" + (KONTAKT ? "; " + KONTAKT : "") + ")"
 
 // Liste der abzufragenden Adressen; manche Anbieter brauchen mehrere Abfragen. Ein Eintrag ist eine
 // Adresse oder { url, kopf } mit zusätzlichen Kopfzeilen.

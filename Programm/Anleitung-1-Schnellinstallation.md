@@ -1,4 +1,4 @@
-# TuX-Wetter V1.5 – Schnellinstallation
+# Tux-Wetter V1.6 – Schnellinstallation
 
 Wetter-Widget für den KDE-Plasma-Desktop. Voraussetzung: **KDE Plasma 6**.
 
@@ -13,7 +13,7 @@ Wetter-Widget für den KDE-Plasma-Desktop. Voraussetzung: **KDE Plasma 6**.
 
 ## 2. Ort einstellen
 
-1. Rechtsklick auf das Widget → **TuX-Wetter einrichten …**
+1. Rechtsklick auf das Widget → **Tux-Wetter einrichten …**
 2. Bei **Ort suchen** den Ort eingeben und **Suchen** klicken.
 3. Den Treffer anklicken und mit **OK** bestätigen.
 

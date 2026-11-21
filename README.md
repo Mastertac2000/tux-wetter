@@ -6,7 +6,7 @@ Wetter im Glas-Look für KDE Plasma 6: aktuelle Lage, Stundenwerte, 5-Tage-Vorsc
 
 ## Programmvorschau
 
-![Programmvorschau](Programm/Tux-Wetter_v1.5_Screenshot.png)
+![Programmvorschau](Programm/Tux-Wetter_v1.6_Screenshot.png)
 
 ## Funktionen
 

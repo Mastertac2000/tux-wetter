@@ -128,7 +128,7 @@ const EN = {
     "Wetterdaten: %1 · Ortssuche, Regen, UV, Luft: Open-Meteo.com (CC BY 4.0)": "Weather data: %1 · location search, rain, UV, air: Open-Meteo.com (CC BY 4.0)",
     "Mond: MET Norway (CC BY 4.0) · Messwerte: MeteoSchweiz, GeoSphere Austria (CC BY 4.0), Deutscher Wetterdienst über Bright Sky": "Moon: MET Norway (CC BY 4.0) · measurements: MeteoSwiss, GeoSphere Austria (CC BY 4.0), Deutscher Wetterdienst via Bright Sky",
     "Warnungen: GeoSphere Austria (CC BY 4.0), Deutscher Wetterdienst, MeteoSchweiz · Ortsprüfung: swisstopo · Standort: GeoJS": "Warnings: GeoSphere Austria (CC BY 4.0), Deutscher Wetterdienst, MeteoSwiss · location check: swisstopo · location: GeoJS",
-    "TuX-Wetter ist freie Software unter der GPL-3.0-or-later.": "TuX-Wetter is free software under the GPL-3.0-or-later.",
+    "Tux-Wetter ist freie Software unter der GPL-3.0-or-later.": "Tux-Wetter is free software under the GPL-3.0-or-later.",
     // ── Version 1.4 ──
     "MET Norway (yr.no)": "MET Norway (yr.no)", "gemessen": "measured",
     "Gemessen um %1 an der Station %2 (%3), %4 km entfernt": "Measured at %1 at station %2 (%3), %4 km away",
@@ -152,19 +152,19 @@ const EN = {
 
     // ── Sicherung der Einstellungen ──
     "Frühere Einstellungen gefunden": "Earlier settings found",
-    "Ein TuX-Wetter hat am %1 seine Einstellungen gesichert: %2.": "A TuX-Wetter widget saved its settings on %1: %2.",
+    "Ein Tux-Wetter hat am %1 seine Einstellungen gesichert: %2.": "A Tux-Wetter widget saved its settings on %1: %2.",
     "1 Ort in der Ortsliste": "1 location in the list", "%1 Orte in der Ortsliste": "%1 locations in the list",
     "Diese Einstellungen übernehmen?": "Use these settings?", "Übernehmen": "Use them", "Nein, neu einrichten": "No, start fresh",
     "Sicherung": "Backup",
-    "Wird das Widget vom Desktop entfernt, löscht Plasma seine Einstellungen. TuX-Wetter sichert sie darum selbst; ein neu hinzugefügtes Widget bietet an, sie zu übernehmen. Für einen anderen Rechner die Einstellungen in eine Datei sichern.":
-        "When the widget is removed from the desktop, Plasma deletes its settings. TuX-Wetter therefore backs them up itself; a newly added widget offers to restore them. To move to another computer, save the settings to a file.",
+    "Wird das Widget vom Desktop entfernt, löscht Plasma seine Einstellungen. Tux-Wetter sichert sie darum selbst; ein neu hinzugefügtes Widget bietet an, sie zu übernehmen. Für einen anderen Rechner die Einstellungen in eine Datei sichern.":
+        "When the widget is removed from the desktop, Plasma deletes its settings. Tux-Wetter therefore backs them up itself; a newly added widget offers to restore them. To move to another computer, save the settings to a file.",
     "Datei:": "File:", "In Datei sichern …": "Save to file …", "Aus Datei laden …": "Load from file …",
     "API-Schlüssel mitsichern": "Include API keys", "Automatisch gesichert:": "Automatic backups:", "Laden": "Load",
     "Einstellungen sichern": "Save settings", "Einstellungen laden": "Load settings",
-    "TuX-Wetter-Einstellungen (*.json)": "TuX-Wetter settings (*.json)", "Alle Dateien (*)": "All files (*)",
+    "Tux-Wetter-Einstellungen (*.json)": "Tux-Wetter settings (*.json)", "Alle Dateien (*)": "All files (*)",
     "Einstellungen gesichert in %1": "Settings saved to %1", "Sichern nicht möglich: %1": "Could not save: %1",
     "Datei nicht lesbar: %1": "Could not read file: %1",
-    "Diese Datei enthält keine Einstellungen von TuX-Wetter.": "This file does not contain TuX-Wetter settings.",
+    "Diese Datei enthält keine Einstellungen von Tux-Wetter.": "This file does not contain Tux-Wetter settings.",
     "Einstellungen geladen. Mit OK oder Anwenden übernehmen.": "Settings loaded. Press OK or Apply to use them.",
 
     // ── Deutscher Wetterdienst (MOSMIX) ──
@@ -183,13 +183,24 @@ const EN = {
     "Ortsprüfung: %1 · Standort: %2": "Location check: %1 · Position: %2",
     "Die Daten werden vom Widget aufbereitet: umgerechnet, zusammengefasst und zum Teil daraus berechnet (z. B. Tageswerte, gefühlte Temperatur).":
         "The widget processes the data: converted, summarised and partly derived (e.g. daily values, feels-like temperature).",
-    "TuX-Wetter ist freie Software unter der %1.": "TuX-Wetter is free software under the %1.",
+    "Tux-Wetter ist freie Software unter der %1.": "Tux-Wetter is free software under the %1.",
     "Das gewählte Wettermodell deckt diesen Ort nicht ab. Bitte in den Einstellungen ein anderes Modell wählen.":
         "The selected weather model does not cover this location. Please choose another model in the settings.",
     "Keine Vorhersagestation des DWD in der Nähe (bis 50 km). Bitte einen anderen Wetteranbieter wählen.":
         "No DWD forecast station nearby (within 50 km). Please choose another weather provider.",
     "Deutscher Wetterdienst: kostenlos und ohne Schlüssel. Die Werte kommen von der nächsten Vorhersagestation des DWD (MOSMIX, abgerufen über Bright Sky): sehr dicht in Deutschland, Österreich und der Schweiz, weltweit gut 5000 Stationen. Ohne Station im Umkreis von 50 km gibt es keine Daten.":
-        "Deutscher Wetterdienst (German weather service): free and without a key. The values come from the nearest DWD forecast station (MOSMIX, retrieved via Bright Sky): very dense in Germany, Austria and Switzerland, more than 5000 stations worldwide. Without a station within 50 km there is no data."
+        "Deutscher Wetterdienst (German weather service): free and without a key. The values come from the nearest DWD forecast station (MOSMIX, retrieved via Bright Sky): very dense in Germany, Austria and Switzerland, more than 5000 stations worldwide. Without a station within 50 km there is no data.",
+
+    // ── Neue Versionen ──
+    "Tux-Wetter %1 ist erschienen": "Tux-Wetter %1 is available",
+    "Installiert ist %1. Die neue Version gibt es auf GitHub; das Widget lädt sie nicht selbst herunter.":
+        "Installed is %1. The new version is available on GitHub; the widget does not download it by itself.",
+    "Download-Seite öffnen": "Open download page",
+    "Diese Version überspringen": "Skip this version",
+    "Neue Versionen": "New versions", "Update-Hinweis:": "Update notice:",
+    "Auf GitHub nach neuen Versionen suchen": "Check GitHub for new versions",
+    "Einmal am Tag fragt das Widget bei GitHub nach der neuesten Version. Ist sie neuer, erscheint ein Hinweis mit einem Link zur Download-Seite. Das Widget lädt und installiert nichts selbst.":
+        "Once a day the widget asks GitHub for the latest version. If it is newer, a notice with a link to the download page appears. The widget does not download or install anything by itself."
 }
 
 function t(sp, text) {

@@ -164,7 +164,7 @@ PlasmoidItem {
                 if (k.autoLocation && k.autoActive && (O.km(breite, laenge, s.lat, s.lon) >= 2 || s.name !== k.locationName))
                     ortSetzen(s.name, s.lat, s.lon)
             } catch (e) {
-                console.warn("TuX-Wetter: Standort nicht bestimmbar:", e)
+                console.warn("Tux-Wetter: Standort nicht bestimmbar:", e)
             }
             dann()
         }
@@ -226,7 +226,7 @@ PlasmoidItem {
                               + "(SELECT widget FROM einstellungen ORDER BY stand DESC LIMIT 10)")
             })
         } catch (e) {
-            console.warn("TuX-Wetter: Einstellungen nicht gesichert:", e)
+            console.warn("Tux-Wetter: Einstellungen nicht gesichert:", e)
         }
     }
 
@@ -252,7 +252,7 @@ PlasmoidItem {
                     zeile = r.rows.item(0)
             })
         } catch (e) {
-            console.warn("TuX-Wetter: Sicherung nicht lesbar:", e)
+            console.warn("Tux-Wetter: Sicherung nicht lesbar:", e)
         }
         const s = zeile ? S.pruefen(zeile.inhalt) : null
         if (s && S.eingerichtet(n => s.einstellungen[n] !== undefined ? s.einstellungen[n] : S.STANDARD[n]))
@@ -277,6 +277,134 @@ PlasmoidItem {
         Plasmoid.configuration.restoreChecked = true
     }
 
+    // ── Neue Version auf GitHub: nur ein Hinweis, das Widget lädt nichts herunter ──
+    // Alle Tux-Wetter-Widgets teilen sich im Speicher: wann zuletzt gefragt wurde, die neueste Version,
+    // die übersprungene Version und bis wann „Später“ gilt. So fragt höchstens eines einmal am Tag.
+    readonly property string updateAdresse: "https://api.github.com/repos/Mastertac2000/tux-wetter/releases/latest"
+    readonly property string eigeneVersion: String(Plasmoid.metaData.version || "")
+    property var neueVersion: null   // { version, url, name, text } oder null
+
+    // "V1.5" → [1, 5]
+    function versionZahlen(v) {
+        return String(v).split(/[^0-9]+/).filter(x => x !== "").map(Number)
+    }
+    // Ist Version a neuer als b?
+    function versionNeuer(a, b) {
+        const x = versionZahlen(a), y = versionZahlen(b)
+        for (let i = 0; i < Math.max(x.length, y.length); i++) {
+            const d = (x[i] || 0) - (y[i] || 0)
+            if (d !== 0)
+                return d > 0
+        }
+        return false
+    }
+
+    function programmWert(name) {
+        let wert = ""
+        try {
+            Speicher.LocalStorage.openDatabaseSync("TuxWetter", "", "Letzte Wetterdaten", 100000).transaction(function (tx) {
+                tx.executeSql("CREATE TABLE IF NOT EXISTS programm (name TEXT PRIMARY KEY, wert TEXT)")
+                const r = tx.executeSql("SELECT wert FROM programm WHERE name = ?", [name])
+                if (r.rows.length)
+                    wert = r.rows.item(0).wert
+            })
+        } catch (e) {
+            console.warn("Tux-Wetter: Speicher nicht lesbar:", e)
+        }
+        return wert
+    }
+
+    function programmSetzen(name, wert) {
+        try {
+            Speicher.LocalStorage.openDatabaseSync("TuxWetter", "", "Letzte Wetterdaten", 100000).transaction(function (tx) {
+                tx.executeSql("CREATE TABLE IF NOT EXISTS programm (name TEXT PRIMARY KEY, wert TEXT)")
+                tx.executeSql("INSERT OR REPLACE INTO programm VALUES (?, ?)", [name, String(wert)])
+            })
+        } catch (e) {
+            console.warn("Tux-Wetter: Speicher nicht beschreibbar:", e)
+        }
+    }
+
+    // Hinweis zeigen, wenn die gemerkte neueste Version neuer ist und nicht weggeklickt wurde
+    function updateAnzeigen() {
+        let r = null
+        try {
+            r = JSON.parse(programmWert("neueste") || "null")
+        } catch (e) {}
+        neueVersion = Plasmoid.configuration.checkUpdates && r && versionNeuer(r.version, eigeneVersion)
+                      && r.version !== programmWert("uebersprungen")
+                      && Date.now() >= Number(programmWert("erinnern") || 0)
+                      ? r : null
+    }
+
+    function updatePruefen() {
+        if (!Plasmoid.configuration.checkUpdates) {
+            neueVersion = null
+            return
+        }
+        // Höchstens einmal am Tag bei GitHub fragen, sonst die gemerkte Antwort nehmen
+        if (Date.now() - Number(programmWert("geprueft") || 0) < 86400000)
+            return updateAnzeigen()
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== XMLHttpRequest.DONE)
+                return
+            // Fehler oder kein Netz: beim nächsten Durchgang (stündlich) erneut versuchen
+            if (xhr.status !== 200)
+                return
+            try {
+                const j = JSON.parse(xhr.responseText)
+                if (!j.tag_name || j.draft || j.prerelease)
+                    return
+                programmSetzen("neueste", JSON.stringify({
+                    version: String(j.tag_name),
+                    url: String(j.html_url || "https://github.com/Mastertac2000/tux-wetter/releases"),
+                    name: String(j.name || j.tag_name),
+                    text: String(j.body || "").replace(/\r/g, "").substring(0, 1500)
+                }))
+                programmSetzen("geprueft", Date.now())
+                updateAnzeigen()
+            } catch (e) {
+                console.warn("Tux-Wetter: Antwort von GitHub nicht lesbar:", e)
+            }
+        }
+        xhr.open("GET", updateAdresse)
+        xhr.setRequestHeader("Accept", "application/vnd.github+json")
+        xhr.send()
+    }
+
+    function updateSeiteOeffnen() {
+        if (neueVersion)
+            Qt.openUrlExternally(neueVersion.url)
+        updateSpaeter()
+    }
+
+    // Nach dem Öffnen der Download-Seite in drei Tagen wieder erinnern (falls dann noch nicht installiert)
+    function updateSpaeter() {
+        programmSetzen("erinnern", Date.now() + 3 * 86400000)
+        neueVersion = null
+    }
+
+    function updateUeberspringen() {
+        if (neueVersion)
+            programmSetzen("uebersprungen", neueVersion.version)
+        neueVersion = null
+    }
+
+    // Erst nach dem Start (Netz ist dann meist da), danach stündlich: fragt GitHub höchstens einmal
+    // am Tag und übernimmt sonst, was ein anderes Widget geholt oder weggeklickt hat
+    Timer {
+        interval: 30000
+        running: true
+        onTriggered: root.updatePruefen()
+    }
+    Timer {
+        interval: 3600000
+        running: Plasmoid.configuration.checkUpdates
+        repeat: true
+        onTriggered: root.updatePruefen()
+    }
+
     function speicherTabelle(tx) {
         tx.executeSql("CREATE TABLE IF NOT EXISTS wetter (widget TEXT PRIMARY KEY, schluessel TEXT, stand REAL, inhalt TEXT)")
         // Zusatzdaten (Regen, UV, Luft, Mond, Messwert) je Widget und Ort, damit die Karte beim Start gleich vollständig ist
@@ -293,7 +421,7 @@ PlasmoidItem {
                               [String(Plasmoid.id), breite + "|" + laenge, Date.now(), JSON.stringify(inhalt)])
             })
         } catch (e) {
-            console.warn("TuX-Wetter: Zwischenspeicher nicht beschreibbar:", e)
+            console.warn("Tux-Wetter: Zwischenspeicher nicht beschreibbar:", e)
         }
     }
 
@@ -316,7 +444,7 @@ PlasmoidItem {
                               [String(Plasmoid.id), datenSchluessel, stand.getTime(), JSON.stringify(d)])
             })
         } catch (e) {
-            console.warn("TuX-Wetter: Zwischenspeicher nicht beschreibbar:", e)
+            console.warn("Tux-Wetter: Zwischenspeicher nicht beschreibbar:", e)
         }
     }
 
@@ -335,7 +463,7 @@ PlasmoidItem {
                 uebernehmen(JSON.parse(zeile.inhalt), schluesselJetzt(), new Date(zeile.stand))
             zusatzLaden()
         } catch (e) {
-            console.warn("TuX-Wetter: Zwischenspeicher nicht lesbar:", e)
+            console.warn("Tux-Wetter: Zwischenspeicher nicht lesbar:", e)
         }
     }
 
@@ -407,7 +535,7 @@ PlasmoidItem {
                 return
             // 404: GeoSphere kennt keine Gemeinde an diesem Punkt, der Ort liegt also nicht in Österreich
             if (xhr.status !== 200 && xhr.status !== 404)
-                return console.warn("TuX-Wetter: Land für", d.name, "nicht prüfbar, Status", xhr.status)
+                return console.warn("Tux-Wetter: Land für", d.name, "nicht prüfbar, Status", xhr.status)
             try {
                 const antwort = xhr.status === 200 ? JSON.parse(xhr.responseText) : {}
                 const ergebnis = d.pruefe(antwort)
@@ -419,7 +547,7 @@ PlasmoidItem {
                 else
                     warnungenFuer(d, b, l, ergebnis.zusatz, fertig, gilt)
             } catch (e) {
-                console.warn("TuX-Wetter: Land für", d.name, "nicht lesbar:", e)
+                console.warn("Tux-Wetter: Land für", d.name, "nicht lesbar:", e)
             }
         }
         xhr.open("GET", d.pruefAdresse(b, l, sprache))
@@ -434,7 +562,7 @@ PlasmoidItem {
             try {
                 fertig(d.auswerten(alt, Date.now(), b, l, sprache))
             } catch (e) {
-                console.warn("TuX-Wetter: Warnungen von", d.name, "nicht lesbar:", e)
+                console.warn("Tux-Wetter: Warnungen von", d.name, "nicht lesbar:", e)
             }
             return
         }
@@ -443,14 +571,14 @@ PlasmoidItem {
             if (xhr.readyState !== XMLHttpRequest.DONE || !gilt())
                 return
             if (xhr.status !== 200)
-                return console.warn("TuX-Wetter: Warnungen von", d.name, "nicht abrufbar, Status", xhr.status)
+                return console.warn("Tux-Wetter: Warnungen von", d.name, "nicht abrufbar, Status", xhr.status)
             try {
                 const antwort = JSON.parse(xhr.responseText)
                 if (d.zwischenspeichern)
                     Wa.speichern(url, antwort, Date.now())
                 fertig(d.auswerten(antwort, Date.now(), b, l, sprache))
             } catch (e) {
-                console.warn("TuX-Wetter: Warnungen von", d.name, "nicht lesbar:", e)
+                console.warn("Tux-Wetter: Warnungen von", d.name, "nicht lesbar:", e)
             }
         }
         xhr.open("GET", url)
@@ -514,14 +642,14 @@ PlasmoidItem {
             if (xhr.status !== 200) {
                 // 404 heisst bei den Messwerten „keine Station in der Nähe“ (Bright Sky): kein Fehler
                 if (!(fehlschlag && xhr.status === 404))
-                    console.warn("TuX-Wetter:", was, "nicht abrufbar, Status", xhr.status)
+                    console.warn("Tux-Wetter:", was, "nicht abrufbar, Status", xhr.status)
                 return fehlschlag ? fehlschlag() : undefined
             }
             let d
             try {
                 d = alsText ? xhr.responseText : JSON.parse(xhr.responseText)
             } catch (e) {
-                console.warn("TuX-Wetter:", was, "nicht lesbar:", e)
+                console.warn("Tux-Wetter:", was, "nicht lesbar:", e)
                 return fehlschlag ? fehlschlag() : undefined
             }
             fertig(d)
@@ -840,7 +968,7 @@ PlasmoidItem {
                 }
             })
         } catch (e) {
-            console.warn("TuX-Wetter: Benachrichtigung nicht möglich:", e)
+            console.warn("Tux-Wetter: Benachrichtigung nicht möglich:", e)
         }
     }
     onWarnungenChanged: if (geladen) meldenFuer(Plasmoid.configuration.locationName, breite, laenge, warnungen)
@@ -935,6 +1063,8 @@ PlasmoidItem {
         // Standort ein- oder ausgeschaltet bzw. in der Ortsliste gewählt
         function onAutoLocationChanged() { root.standortGeaendert() }
         function onAutoActiveChanged() { root.standortGeaendert() }
+        // Suche nach neuen Versionen ein- oder ausgeschaltet
+        function onCheckUpdatesChanged() { root.updatePruefen() }
         // Eine Einstellung des Benutzers geändert: Sicherung erneuern
         function onValueChanged(name, wert) {
             if (root.bereit && S.SCHLUESSEL.indexOf(name) >= 0)

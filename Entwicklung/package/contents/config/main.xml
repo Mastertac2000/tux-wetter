@@ -140,6 +140,10 @@
     <entry name="lastHeight" type="Int">
       <default>0</default>
     </entry>
+    <!-- Auf GitHub nach einer neuen Version suchen (nur Hinweis, das Widget lädt nichts herunter) -->
+    <entry name="checkUpdates" type="Bool">
+      <default>true</default>
+    </entry>
     <!-- Wurde schon nach einer Sicherung eines früheren Widgets gefragt? (siehe sicherung.js) -->
     <entry name="restoreChecked" type="Bool">
       <default>false</default>

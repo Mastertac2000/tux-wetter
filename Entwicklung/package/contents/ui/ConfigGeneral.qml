@@ -64,6 +64,7 @@ KCM.SimpleKCM {
     property int cfg_lastHeight
     property bool cfg_notifyAllPlaces
     property bool cfg_restoreChecked
+    property bool cfg_checkUpdates
 
     // Plasma übergibt zu jeder Einstellung auch den Standardwert; ohne diese Eigenschaften
     // schreibt es beim Öffnen der Einstellungen für jede eine Warnung ins Log
@@ -112,6 +113,7 @@ KCM.SimpleKCM {
     property var cfg_lastHeightDefault
     property var cfg_notifyAllPlacesDefault
     property var cfg_restoreCheckedDefault
+    property var cfg_checkUpdatesDefault
 
     // Sprache der Seite: wie gewählt, sonst nach der Systemsprache
     readonly property string uiSprache: T.aufloesen(cfg_language, Qt.locale().name)
@@ -170,7 +172,7 @@ KCM.SimpleKCM {
                 }
             })
         } catch (e) {
-            console.warn("TuX-Wetter: Sicherungen nicht lesbar:", e)
+            console.warn("Tux-Wetter: Sicherungen nicht lesbar:", e)
         }
         autoSicherungen = liste
     }
@@ -210,7 +212,7 @@ KCM.SimpleKCM {
                 return sicherungMelden(t("Datei nicht lesbar: %1", fehler.trim() || code), true)
             const s = S.pruefen(aus)
             if (!s)
-                return sicherungMelden(t("Diese Datei enthält keine Einstellungen von TuX-Wetter."), true)
+                return sicherungMelden(t("Diese Datei enthält keine Einstellungen von Tux-Wetter."), true)
             einstellungenSetzen(s.einstellungen)
             sicherungMelden(t("Einstellungen geladen. Mit OK oder Anwenden übernehmen."), false)
         })
@@ -944,6 +946,26 @@ KCM.SimpleKCM {
             }
         }
 
+        // ── Neue Versionen: nur ein Hinweis, heruntergeladen wird nichts ──
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: seite.t("Neue Versionen")
+        }
+        QQC2.CheckBox {
+            Kirigami.FormData.label: seite.t("Update-Hinweis:")
+            text: seite.t("Auf GitHub nach neuen Versionen suchen")
+            checked: seite.cfg_checkUpdates
+            onToggled: seite.cfg_checkUpdates = checked
+        }
+        QQC2.Label {
+            Layout.fillWidth: true
+            Layout.maximumWidth: Kirigami.Units.gridUnit * 26
+            wrapMode: Text.WordWrap
+            opacity: 0.7
+            font: Kirigami.Theme.smallFont
+            text: seite.t("Einmal am Tag fragt das Widget bei GitHub nach der neuesten Version. Ist sie neuer, erscheint ein Hinweis mit einem Link zur Download-Seite. Das Widget lädt und installiert nichts selbst.")
+        }
+
         // ── Sicherung: Plasma löscht die Einstellungen mit dem Widget ──
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
@@ -955,7 +977,7 @@ KCM.SimpleKCM {
             wrapMode: Text.WordWrap
             opacity: 0.7
             font: Kirigami.Theme.smallFont
-            text: seite.t("Wird das Widget vom Desktop entfernt, löscht Plasma seine Einstellungen. TuX-Wetter sichert sie darum selbst; ein neu hinzugefügtes Widget bietet an, sie zu übernehmen. Für einen anderen Rechner die Einstellungen in eine Datei sichern.")
+            text: seite.t("Wird das Widget vom Desktop entfernt, löscht Plasma seine Einstellungen. Tux-Wetter sichert sie darum selbst; ein neu hinzugefügtes Widget bietet an, sie zu übernehmen. Für einen anderen Rechner die Einstellungen in eine Datei sichern.")
         }
         ColumnLayout {
             Kirigami.FormData.label: seite.t("Datei:")
@@ -1011,7 +1033,7 @@ KCM.SimpleKCM {
             title: seite.t("Einstellungen sichern")
             fileMode: Dialoge.FileDialog.SaveFile
             defaultSuffix: "json"
-            nameFilters: [seite.t("TuX-Wetter-Einstellungen (*.json)"), seite.t("Alle Dateien (*)")]
+            nameFilters: [seite.t("Tux-Wetter-Einstellungen (*.json)"), seite.t("Alle Dateien (*)")]
             onAccepted: seite.inDateiSichern(selectedFile)
         }
         Dialoge.FileDialog {
@@ -1019,7 +1041,7 @@ KCM.SimpleKCM {
             title: seite.t("Einstellungen laden")
             fileMode: Dialoge.FileDialog.OpenFile
             currentFolder: StandardPaths.writableLocation(StandardPaths.HomeLocation)
-            nameFilters: [seite.t("TuX-Wetter-Einstellungen (*.json)"), seite.t("Alle Dateien (*)")]
+            nameFilters: [seite.t("Tux-Wetter-Einstellungen (*.json)"), seite.t("Alle Dateien (*)")]
             onAccepted: seite.ausDateiLaden(selectedFile)
         }
 
@@ -1037,7 +1059,7 @@ KCM.SimpleKCM {
             // Dieselben Angaben wie im Tooltip der Quellenzeile auf der Karte, hier mit Links
             textFormat: Text.StyledText
             text: A.quellenListe(seite.cfg_provider, seite.uiSprache, true)
-                  + "<br>" + seite.t("TuX-Wetter ist freie Software unter der %1.", A.verweis("GPL-3.0-or-later", "https://www.gnu.org/licenses/gpl-3.0.html"))
+                  + "<br>" + seite.t("Tux-Wetter ist freie Software unter der %1.", A.verweis("GPL-3.0-or-later", "https://www.gnu.org/licenses/gpl-3.0.html"))
             onLinkActivated: link => Qt.openUrlExternally(link)
             HoverHandler { cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor }
         }

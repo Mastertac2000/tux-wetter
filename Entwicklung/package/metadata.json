@@ -16,9 +16,9 @@
         "Icon": "weather-few-clouds",
         "Id": "ch.tuxwetter",
         "License": "GPL-3.0-or-later",
-        "Name": "TuX-Wetter",
-        "Name[de]": "TuX-Wetter",
-        "Version": "V1.5"
+        "Name": "Tux-Wetter",
+        "Name[de]": "Tux-Wetter",
+        "Version": "V1.6"
     },
     "KPackageStructure": "Plasma/Applet",
     "X-Plasma-API-Minimum-Version": "6.0"

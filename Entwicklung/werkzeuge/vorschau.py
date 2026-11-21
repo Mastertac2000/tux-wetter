@@ -15,6 +15,7 @@ zweiten Vorschautags; REGEN=jetzt|spaeter|kein wählt die Regenvorhersage; DETAI
 aus; POLLEN=0 wie ausserhalb Europas (ohne Pollen); HELL=1 helle Karte; MOND=0..359 Mondphase in Grad;
 GEMESSEN=0 ohne Messstation (Modellwert); GELADEN=0 ohne Daten (mit FEHLER="Text" als Meldung);
 FAHRENHEIT=1; NAME="langer Ortsname"; TEMP=-23.4 (aktuelle Temperatur, z. B. für dreistellige °F-Werte); ANDERE=1..4 Warnung dieser Stufe an einem anderen Ort der Ortsliste;
+UPDATE=1 zeigt den Hinweis auf eine neue Version (v1.7);
 ANGEBOT=1 zeigt das Angebot, die Einstellungen eines früheren Widgets zu übernehmen;
 ANBIETER=dwd|metno|openweathermap|weatherapi für die Quellenzeile unten rechts.
 Achtung: offscreen rendert Qt ohne Grafikkarte und lässt Shader-Effekte (Glas-Unschärfe) einfach weg.
@@ -126,6 +127,11 @@ Rectangle {{
         property string anbieter: "{os.environ.get('ANBIETER', 'openmeteo')}"
         function angebotAnnehmen() {{}}
         function angebotAblehnen() {{}}
+        property string eigeneVersion: "V1.6"
+        property var neueVersion: {'({version: "v1.7", url: "https://github.com/Mastertac2000/tux-wetter/releases/tag/v1.7", name: "Tux-Wetter V1.7", text: "**Neu:** Hinweis auf neue Versionen\\n\\n- Fehler behoben\\n- Englische Texte ergänzt"})' if os.environ.get("UPDATE") == "1" else "null"}
+        function updateSeiteOeffnen() {{}}
+        function updateSpaeter() {{}}
+        function updateUeberspringen() {{}}
         function ortWechseln(s) {{}}
         function ortZeigen(o) {{}}
         property var andereWarnungen: {('[{ort: {name: "Bern", lat: 46.9, lon: 7.4}, liste: [{typ: "gewitter", stufe: ' + os.environ.get("ANDERE") + ', titel: "Gewitter, Gefahrenstufe 3", kmh: 0, von: Date.now(), bis: Date.now() + 7200000, quelle: "MeteoSchweiz", amtlich: true}]}]') if os.environ.get("ANDERE") else "[]"}

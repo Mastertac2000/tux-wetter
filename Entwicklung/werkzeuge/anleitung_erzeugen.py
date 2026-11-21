@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt die ausführliche Anleitung von TuX-Wetter in zwei Fassungen:
+"""Erzeugt die ausführliche Anleitung von Tux-Wetter in zwei Fassungen:
   - Programm/Anleitung-2-Ausfuehrlich.md        öffentlich, ohne persönliche Daten
   - Entwicklung/Sicherung/Anleitung-2-Ausfuehrlich.md   mit Kapitel zur Sicherung und Auszug aus wiederherstellen.sh
 Aufruf: python3 anleitung_erzeugen.py
@@ -24,11 +24,11 @@ def anleitung(mit_sicherung):
     t = teile.append
 
     # ─────────────────────────────── Kopf ───────────────────────────────
-    t(f"""# TuX-Wetter V{VERSION} – Ausführliche Anleitung
+    t(f"""# Tux-Wetter V{VERSION} – Ausführliche Anleitung
 
 Erstellt 2026 von R.Bruns · Lizenz GPL-3.0-or-later
 
-TuX-Wetter ist ein Wetter-Widget für den KDE-Plasma-Desktop. Es zeigt das aktuelle Wetter, die
+Tux-Wetter ist ein Wetter-Widget für den KDE-Plasma-Desktop. Es zeigt das aktuelle Wetter, die
 nächsten Stunden und fünf Tage Vorschau auf einer Karte im Glas-Look – mit Warnungen, gemessener
 Temperatur und vielen Zusatzinfos. Es spricht Deutsch und Englisch.
 
@@ -39,12 +39,24 @@ Temperatur und vielen Zusatzinfos. Es spricht Deutsch und Englisch.
 
 <a id="neu"></a>
 
-## Neu in Version 1.5
+## Neu in Version {VERSION}
+
+**Neu**
+
+- **Hinweis auf neue Versionen:** Einmal am Tag fragt das Widget bei GitHub nach, ob es eine neuere
+  Version gibt. Wenn ja, erscheint auf der Karte ein Hinweis mit zwei Knöpfen:
+  **Download-Seite öffnen** und **Diese Version überspringen**. Nach dem Öffnen der Download-Seite
+  erinnert das Widget nach drei Tagen erneut, falls die neue Version dann noch nicht installiert ist.
+  Heruntergeladen oder installiert wird dabei nichts – das bleibt in der eigenen Hand
+  ([Kapitel 14](#k14)). Abschalten lässt sich der Hinweis in den Einstellungen unter
+  **Neue Versionen** ([Kapitel 10](#k10)).
+
+### Bereits in Version 1.5
 
 **Neu**
 
 - **Einstellungen gehen nicht mehr verloren:** Entfernt man das Widget vom Desktop, löscht Plasma seine
-  Einstellungen. TuX-Wetter sichert sie darum zusätzlich selbst. Ein neu hinzugefügtes Widget findet die
+  Einstellungen. Tux-Wetter sichert sie darum zusätzlich selbst. Ein neu hinzugefügtes Widget findet die
   Sicherung und fragt: **Frühere Einstellungen gefunden – übernehmen?** ([Kapitel 14](#k14)).
 - **In Datei sichern und aus Datei laden:** In den Einstellungen unter **Sicherung**, z. B. für einen
   anderen Rechner. API-Schlüssel kommen nur auf Wunsch mit.
@@ -60,7 +72,7 @@ Temperatur und vielen Zusatzinfos. Es spricht Deutsch und Englisch.
 
 - **Installationsprogramm zum Doppelklicken** (`Tux-Wetter-installieren.sh`): installiert, aktualisiert
   und steigt von älteren Versionen um, ganz ohne Terminal ([Kapitel 3](#k3)).
-- **Neuer Name „TuX-Wetter“** und neue Kennung `ch.tuxwetter` ohne Personennamen; einmaliger Umstieg
+- **Neuer Name „Tux-Wetter“** und neue Kennung `ch.tuxwetter` ohne Personennamen; einmaliger Umstieg
   siehe unten.
 - Die Anleitung erklärt genauer, wie man eine **neue Version einspielt**. Über **Miniprogramm aus lokaler
   Datei installieren …** geht das nicht: Plasma meldet dann „… existiert schon“
@@ -108,11 +120,11 @@ Temperatur und vielen Zusatzinfos. Es spricht Deutsch und Englisch.
 
 ## Inhalt
 
-[Neu in Version 1.5](#neu)
+[Neu in Version {VERSION}](#neu)
 
 **Teil 1 · Loslegen**
 
-1. [Das kann TuX-Wetter](#k1)
+1. [Das kann Tux-Wetter](#k1)
 2. [Voraussetzungen](#k2)
 3. [Installieren](#k3)
 4. [In zwei Minuten eingerichtet](#k4)
@@ -123,7 +135,7 @@ Temperatur und vielen Zusatzinfos. Es spricht Deutsch und Englisch.
 6. [Bedienen](#k6)
 7. [Wetterwarnungen](#k7)
 8. [Mehrere Orte und Standort](#k8)
-9. [TuX-Wetter in der Leiste](#k9)
+9. [Tux-Wetter in der Leiste](#k9)
 
 **Teil 3 · Einstellen**
 
@@ -149,7 +161,7 @@ Temperatur und vielen Zusatzinfos. Es spricht Deutsch und Englisch.
 """)
 
     # ───────────────────────────── Kapitel 1 ─────────────────────────────
-    t(kapitel(1, "Das kann TuX-Wetter") + f"""
+    t(kapitel(1, "Das kann Tux-Wetter") + f"""
 **Wetter**
 - aktuelles Wetter mit Temperatur, Wetterlage, Höchst- und Tiefstwert, gefühlter Temperatur
 - Wind mit Richtungspfeil, Regenwahrscheinlichkeit, Luftfeuchtigkeit
@@ -229,7 +241,7 @@ bash /pfad/zum/Ordner/Sicherung/wiederherstellen.sh
 3. Die Fragen mit **Ja** beantworten. Der Desktop verschwindet kurz und kommt gleich wieder.
 4. Auf Wunsch legt das Programm das Widget gleich oben rechts auf den Desktop.
 
-Das Programm erkennt selbst, ob TuX-Wetter neu installiert, auf eine neue Version aktualisiert oder von
+Das Programm erkennt selbst, ob Tux-Wetter neu installiert, auf eine neue Version aktualisiert oder von
 einer älteren Version mit anderer Kennung umgestellt werden muss. Beim Umstellen sichert es vorher die
 Plasma-Einstellungen; Widgets, Position und Einstellungen bleiben.
 
@@ -241,9 +253,9 @@ Plasma-Einstellungen; Widgets, Position und Einstellungen bleiben.
 1. Rechtsklick auf den Desktop → **Miniprogramme hinzufügen oder verwalten …**
 2. Oben **Neue Miniprogramme holen …** → **Miniprogramm aus lokaler Datei installieren …**
 3. Die Datei `{DATEI}` auswählen.
-4. In der Liste **TuX-Wetter** suchen und auf den Desktop ziehen.
+4. In der Liste **Tux-Wetter** suchen und auf den Desktop ziehen.
 
-> **Achtung:** Dieser Weg geht nur bei der **ersten** Installation. Ist TuX-Wetter schon installiert,
+> **Achtung:** Dieser Weg geht nur bei der **ersten** Installation. Ist Tux-Wetter schon installiert,
 > meldet Plasma „… existiert schon“. Eine neue Version spielt man mit einem Befehl im Terminal ein
 > ([Kapitel 14](#k14)). Das Widget dafür **nicht** vom Desktop löschen.
 
@@ -271,7 +283,7 @@ Programme bleiben offen.
     t(kapitel(4, "In zwei Minuten eingerichtet") + """
 > **Kurz gesagt:** Ort suchen, Treffer anklicken, OK.
 
-1. Rechtsklick auf das Widget → **TuX-Wetter einrichten …**
+1. Rechtsklick auf das Widget → **Tux-Wetter einrichten …**
 2. Bei **Ort suchen** den Ort eingeben und **Suchen** klicken.
 3. Den passenden Treffer anklicken.
 4. Mit **OK** bestätigen.
@@ -442,7 +454,7 @@ Die Karte behält ihre Form und sitzt mittig in der Fläche. Kleinste Grösse: 2
 |---|---|
 | **Jetzt aktualisieren** | Daten sofort neu laden |
 | **Nächster Ort** / **Vorheriger Ort** | Ort wechseln (nur mit Ortsliste) |
-| **TuX-Wetter einrichten …** | Einstellungen öffnen |
+| **Tux-Wetter einrichten …** | Einstellungen öffnen |
 
 ---
 
@@ -563,7 +575,7 @@ höchstens alle 10 Minuten. Der Standort steht dann als erster Eintrag vor der O
 > **Hinweis:** Die Ortung über die IP-Adresse ist ungenau. Sie liefert meist den Ort des
 > Internetanbieters in der Nähe. Für genaue Werte den Ort lieber suchen.
 
-> **Tipp:** Statt einer Ortsliste kann man TuX-Wetter auch mehrmals auf den Desktop legen – jedes
+> **Tipp:** Statt einer Ortsliste kann man Tux-Wetter auch mehrmals auf den Desktop legen – jedes
 > Widget mit eigenem Ort.
 
 ---
@@ -571,11 +583,11 @@ höchstens alle 10 Minuten. Der Standort steht dann als erster Eintrag vor der O
 """)
 
     # ───────────────────────────── Kapitel 9 ─────────────────────────────
-    t(kapitel(9, "TuX-Wetter in der Leiste") + """
+    t(kapitel(9, "Tux-Wetter in der Leiste") + """
 > **Kurz gesagt:** Klein mit Symbol und Temperatur; ein Klick öffnet die ganze Karte.
 
 1. Rechtsklick auf die Leiste → **Bedienelemente hinzufügen …**
-2. **TuX-Wetter** in die Leiste ziehen.
+2. **Tux-Wetter** in die Leiste ziehen.
 
 **Darüberfahren** zeigt ein Infofenster mit:
 - Ort, Wetterlage und Temperatur (mit „gemessen“ bzw. gefühlter Temperatur)
@@ -595,7 +607,7 @@ Bei einer Warnung steht ein kleines Warndreieck in der Warnfarbe am Symbol.
 
     # ───────────────────────────── Kapitel 10 ─────────────────────────────
     t(kapitel(10, "Die Einstellungen") + """
-> **Kurz gesagt:** Rechtsklick auf das Widget → **TuX-Wetter einrichten …** öffnet die Einstellungen.
+> **Kurz gesagt:** Rechtsklick auf das Widget → **Tux-Wetter einrichten …** öffnet die Einstellungen.
 > Die Seite hat fünf Abschnitte; Änderungen mit **OK** oder **Anwenden** übernehmen.
 
 ### Ort
@@ -665,6 +677,12 @@ Bei einer Warnung steht ein kleines Warndreieck in der Warnfarbe am Symbol.
 
 Geladene Einstellungen gelten erst nach **OK** oder **Anwenden** – vorher lässt sich mit **Abbrechen**
 alles verwerfen ([Kapitel 14](#k14)).
+
+### Neue Versionen
+
+| Feld | Was es bewirkt |
+|---|---|
+| **Update-Hinweis** | einmal am Tag bei GitHub nach einer neueren Version fragen und sie auf der Karte melden (Standard: an) |
 
 Nach einem neuen Ort, Modell oder Anbieter lädt das Widget sofort neue Daten; bis dahin steht
 „Lade Wetterdaten …“ auf der Karte.
@@ -804,7 +822,8 @@ unter **Datenquellen und Lizenz** und im Tooltip der Quellenangabe auf der Karte
     # ───────────────────────────── Kapitel 13 ─────────────────────────────
     t(kapitel(13, "Datenschutz") + """
 > **Kurz gesagt:** Hinaus gehen nur die Koordinaten der Orte, und nur an die
-> Wetterdienste, die die Daten liefern. Alles Zusätzliche lässt sich abschalten.
+> Wetterdienste, die die Daten liefern. Dazu fragt das Widget einmal am Tag bei GitHub nach einer
+> neuen Version, ohne Ort. Alles Zusätzliche lässt sich abschalten.
 
 | Wer | bekommt | wofür |
 |---|---|---|
@@ -816,6 +835,7 @@ unter **Datenquellen und Lizenz** und im Tooltip der Quellenangabe auf der Karte
 | GeoSphere Austria, DWD | Koordinaten | Warnungen (und Prüfung des Landes) |
 | Bright Sky | Koordinaten | gemessene Temperatur in Deutschland; Vorhersage beim Anbieter DWD |
 | GeoJS | nur die eigene IP-Adresse | nur mit **Standort: Automatisch bestimmen** |
+| GitHub | keinen Ort, nur die übliche Anfrage (IP-Adresse), einmal am Tag | Hinweis auf neue Versionen; abschaltbar unter **Neue Versionen** |
 
 - Für die gemessene Temperatur in der Schweiz und in Österreich lädt das Widget Stationsdaten
   herunter – dabei geht **kein** Ort hinaus.
@@ -842,6 +862,10 @@ unter **Datenquellen und Lizenz** und im Tooltip der Quellenangabe auf der Karte
 """
     aktualisieren = f"""
 ### Neue Version einspielen
+
+Gibt es eine neue Version, meldet das Widget das selbst auf der Karte (ausser der Hinweis ist unter
+**Neue Versionen** abgeschaltet). **Download-Seite öffnen** führt zur Seite bei GitHub; dort
+`Veröffentlichung.zip` oder die einzelnen Dateien herunterladen. Das Widget lädt nichts selbst herunter.
 
 Die Einstellungen bleiben erhalten. Am einfachsten: Doppelklick auf `Tux-Wetter-installieren.sh` aus dem Ordner der neuen
 Version ([Kapitel 3](#k3)). Oder im Terminal im Ordner mit der neuen Datei (Weg B):
@@ -881,15 +905,15 @@ kpackagetool6 -t Plasma/Applet -r "$(kpackagetool6 -t Plasma/Applet -l | grep -x
 > `~/.config/plasma-org.kde.plasma.desktop-appletsrc` kopieren und Plasma wieder starten.
 
 Ohne Terminal geht es auch: Die neue Version über **Miniprogramm aus lokaler Datei installieren …**
-einspielen, das neue TuX-Wetter auf den Desktop ziehen und neu einrichten, dann das alte entfernen.
+einspielen, das neue Tux-Wetter auf den Desktop ziehen und neu einrichten, dann das alte entfernen.
 Die Einstellungen müssen dabei neu eingegeben werden, weil Versionen vor 1.5 keine Sicherung anlegen.
 
 ### Einstellungen sichern und übernehmen
 
-Wird das Widget vom Desktop entfernt, löscht Plasma seine Einstellungen. TuX-Wetter sichert sie darum
+Wird das Widget vom Desktop entfernt, löscht Plasma seine Einstellungen. Tux-Wetter sichert sie darum
 selbst, bei jeder Änderung:
 
-- **Neues Widget:** Legt man später wieder ein TuX-Wetter auf den Desktop, erscheint auf der Karte
+- **Neues Widget:** Legt man später wieder ein Tux-Wetter auf den Desktop, erscheint auf der Karte
   **Frühere Einstellungen gefunden** mit Datum und Ort. **Übernehmen** stellt alles wieder her, auch
   Ortsliste, Farben und API-Schlüssel. **Nein, neu einrichten** fragt nicht mehr.
 - **Später:** Einstellungen → **Sicherung** → **Automatisch gesichert** zeigt die letzten Sicherungen.
@@ -904,7 +928,7 @@ selbst, bei jeder Änderung:
 
 ### Entfernen
 
-- **Nur vom Desktop nehmen:** Rechtsklick auf das Widget → **TuX-Wetter entfernen**. Es bleibt
+- **Nur vom Desktop nehmen:** Rechtsklick auf das Widget → **Tux-Wetter entfernen**. Es bleibt
   installiert und lässt sich wieder hinzufügen.
 - **Ganz entfernen**, im Terminal:
 
@@ -1049,7 +1073,7 @@ Ursache steht im Tooltip. Bei Daten von einem früheren Tag steht das Datum dabe
 **Das Widget erscheint nach der Installation nicht in der Liste.**
 Plasma neu laden: `systemctl --user restart plasma-plasmashell`
 
-**Nach dem Umstieg auf 1.5 gibt es TuX-Wetter zweimal in der Liste der Widgets.**
+**Nach dem Umstieg auf 1.5 gibt es Tux-Wetter zweimal in der Liste der Widgets.**
 Die alte Fassung ist noch installiert. Der Umstieg in [Kapitel 14](#k14) entfernt sie mit der letzten Zeile.
 
 **Beim Installieren einer neuen Version meldet Plasma „… existiert schon“.**
@@ -1065,7 +1089,7 @@ Einstellungen → **Sicherung** → **Automatisch gesichert** → **Laden** → 
 Normal: Bis das Internet bereit ist, zeigt das Widget die letzten Werte. Nach wenigen Sekunden kommen frische.
 
 **Die Temperatur weicht von anderen Wetter-Apps ab.**
-TuX-Wetter zeigt in der Schweiz, in Österreich und in Deutschland den Messwert der nächsten Station,
+Tux-Wetter zeigt in der Schweiz, in Österreich und in Deutschland den Messwert der nächsten Station,
 viele Apps den Wert einer Vorhersage – oft 1–2 °C Unterschied. Wer den Vorhersagewert sehen möchte,
 schaltet **Gemessene Temperatur** aus.
 
@@ -1109,7 +1133,7 @@ Er wirkt nur direkt auf dem Desktop und am besten mit einem Foto als Hintergrund
 | Begriff | Bedeutung |
 |---|---|
 | Widget / Miniprogramm | ein kleines Programm auf dem Desktop oder in einer Leiste |
-| KDE Plasma | die Desktop-Oberfläche, auf der TuX-Wetter läuft |
+| KDE Plasma | die Desktop-Oberfläche, auf der Tux-Wetter läuft |
 | Qt | die Programmbibliothek unter Plasma; sie kommt mit Plasma |
 | Leiste | die Kontrollleiste am Bildschirmrand, z. B. mit Startmenü und Uhr |
 | Terminal | ein Fenster für Textbefehle, unter KDE meist *Konsole* |
@@ -1124,7 +1148,7 @@ Er wirkt nur direkt auf dem Desktop und am besten mit einem Foto als Hintergrund
 
 
 def schnellanleitung():
-    return f"""# TuX-Wetter V{VERSION} – Schnellinstallation
+    return f"""# Tux-Wetter V{VERSION} – Schnellinstallation
 
 Wetter-Widget für den KDE-Plasma-Desktop. Voraussetzung: **KDE Plasma 6**.
 
@@ -1139,7 +1163,7 @@ Wetter-Widget für den KDE-Plasma-Desktop. Voraussetzung: **KDE Plasma 6**.
 
 ## 2. Ort einstellen
 
-1. Rechtsklick auf das Widget → **TuX-Wetter einrichten …**
+1. Rechtsklick auf das Widget → **Tux-Wetter einrichten …**
 2. Bei **Ort suchen** den Ort eingeben und **Suchen** klicken.
 3. Den Treffer anklicken und mit **OK** bestätigen.
 

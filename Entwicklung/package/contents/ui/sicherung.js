@@ -22,7 +22,7 @@ const STANDARD = {
     glassEffect: false, glassTint: 45, glassDarken: 18, backgroundOpacity: 94,
     language: "auto", showDetails: true, feelsLike: true, rainNowcast: true, airQuality: true,
     notifications: true, notifyLevel: 2, notifyAllPlaces: true,
-    places: "[]", autoLocation: false, measuredTemp: true, lightCard: false
+    places: "[]", autoLocation: false, measuredTemp: true, lightCard: false, checkUpdates: true
 }
 const SCHLUESSEL = Object.keys(STANDARD)
 // API-Schlüssel: in der automatischen Sicherung immer, in einer Datei nur auf Wunsch
