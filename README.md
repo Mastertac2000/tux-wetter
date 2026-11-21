@@ -1,6 +1,6 @@
 # Tux-Wetter
 
-Wetter im Glas-Look für KDE Plasma 6: aktuelle Lage, Stundenwerte, 5-Tage-Vorschau und Wetterwarnungen.
+Wetter im Glas-Look für KDE Plasma 6: aktuelle Lage, Stundenwerte, 5-Tage-Vorschau und Wetterwarnungen – auf Deutsch oder Englisch.
 
 **Datenanbieter:** Open-Meteo, MET Norway, Deutscher Wetterdienst, OpenWeatherMap oder WeatherAPI.com
 

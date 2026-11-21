@@ -11,8 +11,8 @@
             }
         ],
         "Category": "Environment and Weather",
-        "Description": "Glass-look weather: current conditions, hourly values, 5-day forecast and weather warnings (data: Open-Meteo, MET Norway, Deutscher Wetterdienst, OpenWeatherMap or WeatherAPI.com)",
-        "Description[de]": "Wetter im Glas-Look: aktuelle Lage, Stundenwerte, 5-Tage-Vorschau und Wetterwarnungen (Daten: Open-Meteo, MET Norway, Deutscher Wetterdienst, OpenWeatherMap oder WeatherAPI.com)",
+        "Description": "Glass-look weather: current conditions, hourly values, 5-day forecast and weather warnings, in German or English (data: Open-Meteo, MET Norway, Deutscher Wetterdienst, OpenWeatherMap or WeatherAPI.com)",
+        "Description[de]": "Wetter im Glas-Look: aktuelle Lage, Stundenwerte, 5-Tage-Vorschau und Wetterwarnungen, auf Deutsch oder Englisch (Daten: Open-Meteo, MET Norway, Deutscher Wetterdienst, OpenWeatherMap oder WeatherAPI.com)",
         "Icon": "weather-few-clouds",
         "Id": "ch.tuxwetter",
         "License": "GPL-3.0-or-later",
