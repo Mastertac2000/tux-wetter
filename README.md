@@ -1,4 +1,4 @@
-# TuX-Wetter
+# Tux-Wetter
 
 Wetter im Glas-Look für KDE Plasma 6: aktuelle Lage, Stundenwerte, 5-Tage-Vorschau und Wetterwarnungen.
 
