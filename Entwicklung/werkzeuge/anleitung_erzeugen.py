@@ -48,7 +48,8 @@ Temperatur und vielen Zusatzinfos. Es spricht Deutsch und Englisch.
   **Download-Seite öffnen** und **Diese Version überspringen**. Nach dem Öffnen der Download-Seite
   erinnert das Widget nach drei Tagen erneut, falls die neue Version dann noch nicht installiert ist.
   Heruntergeladen oder installiert wird dabei nichts – das bleibt in der eigenen Hand
-  ([Kapitel 14](#k14)). Abschalten lässt sich der Hinweis in den Einstellungen unter
+  ([Kapitel 14](#k14)). In der Leiste zeigt ein grüner Kreis mit Pfeil am Symbol die neue Version an
+  ([Kapitel 9](#k9)). Abschalten lässt sich der Hinweis in den Einstellungen unter
   **Neue Versionen** ([Kapitel 10](#k10)).
 
 ### Bereits in Version 1.5
@@ -594,8 +595,11 @@ höchstens alle 10 Minuten. Der Standort steht dann als erster Eintrag vor der O
 - Regen der nächsten 2 Stunden
 - Warnungen, auch der anderen Orte der Ortsliste
 - Uhrzeit der Daten, Wetterdienst und gegebenenfalls eine Fehlermeldung
+- eine neue Version von Tux-Wetter, falls es eine gibt
 
-Bei einer Warnung steht ein kleines Warndreieck in der Warnfarbe am Symbol.
+Bei einer Warnung steht ein kleines Warndreieck in der Warnfarbe am Symbol (unten rechts). Gibt es eine
+neue Version, zeigt ein grüner Kreis mit Pfeil nach oben unten links am Symbol darauf hin; ein Klick
+öffnet die Karte mit dem Hinweis ([Kapitel 14](#k14)).
 
 > **Hinweis:** Der Glas-Effekt wirkt in der Leiste nicht.
 

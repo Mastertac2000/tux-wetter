@@ -349,7 +349,7 @@ PlasmoidItem {
         xhr.onreadystatechange = function () {
             if (xhr.readyState !== XMLHttpRequest.DONE)
                 return
-            // Fehler oder kein Netz: beim nächsten Durchgang (stündlich) erneut versuchen
+            // Fehler oder kein Netz: beim nächsten Durchgang (in 5 Minuten) erneut versuchen
             if (xhr.status !== 200)
                 return
             try {
@@ -391,15 +391,16 @@ PlasmoidItem {
         neueVersion = null
     }
 
-    // Erst nach dem Start (Netz ist dann meist da), danach stündlich: fragt GitHub höchstens einmal
-    // am Tag und übernimmt sonst, was ein anderes Widget geholt oder weggeklickt hat
+    // Erst nach dem Start (Netz ist dann meist da), danach alle 5 Minuten: fragt GitHub höchstens
+    // einmal am Tag und übernimmt sonst aus dem Speicher, was ein anderes Widget geholt oder
+    // weggeklickt hat (so verschwindet auch die Markierung in der Leiste bald)
     Timer {
         interval: 30000
         running: true
         onTriggered: root.updatePruefen()
     }
     Timer {
-        interval: 3600000
+        interval: 300000
         running: Plasmoid.configuration.checkUpdates
         repeat: true
         onTriggered: root.updatePruefen()
@@ -897,6 +898,7 @@ PlasmoidItem {
           + andereWarnungen.map(x => "\n⚠ " + x.ort.name + ": " + Wa.kurztext(x.liste[0], jetzt, x.liste.length - 1, sprache)).join("")
           + "\n" + t("Stand: %1", standText()) + " · " + A.anbieterName(anbieter)
           + (fehler ? "\n" + fehler : "")
+          + (neueVersion ? "\n⬆ " + t("Tux-Wetter %1 ist erschienen", neueVersion.version) : "")
         : (fehler || t("Lade Wetterdaten …"))
 
     Plasmoid.contextualActions: [
@@ -1104,6 +1106,32 @@ PlasmoidItem {
                 tag: root.tag
                 zeit: root.animationsZeit
 
+                // Neue Version auf GitHub: grüner Kreis mit Pfeil nach oben unten links am Symbol
+                // (unten rechts sitzt das Warndreieck); ein Klick öffnet die Karte mit dem Hinweis
+                Canvas {
+                    id: leistenUpdate
+                    visible: root.neueVersion !== null
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    width: parent.width * 0.46
+                    height: width
+                    onVisibleChanged: requestPaint()
+                    onWidthChanged: requestPaint()
+                    onPaint: {
+                        const c = getContext("2d"), b = width
+                        c.reset()
+                        c.lineWidth = Math.max(1, b * 0.08)
+                        c.strokeStyle = "#1A1A1A"
+                        c.fillStyle = "#2EA05A"
+                        c.beginPath(); c.arc(b / 2, b / 2, b * 0.44, 0, 2 * Math.PI); c.fill(); c.stroke()
+                        c.strokeStyle = "#FFFFFF"
+                        c.lineWidth = Math.max(1.2, b * 0.12)
+                        c.lineCap = "round"
+                        c.lineJoin = "round"
+                        c.beginPath(); c.moveTo(b / 2, b * 0.74); c.lineTo(b / 2, b * 0.28); c.stroke()
+                        c.beginPath(); c.moveTo(b * 0.31, b * 0.46); c.lineTo(b / 2, b * 0.27); c.lineTo(b * 0.69, b * 0.46); c.stroke()
+                    }
+                }
                 // Wetterwarnung: kleines Warndreieck in der Farbe der stärksten Warnung unten rechts am Symbol
                 Canvas {
                     id: leistenWarnung
